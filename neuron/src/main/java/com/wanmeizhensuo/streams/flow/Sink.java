@@ -167,7 +167,7 @@ public class Sink {
                 String.class);
         var name = this.flow.getName();
 
-        var flag = false;
+        boolean flag = false;
 
         if (limit.isPresent()) {
             var limitSet =

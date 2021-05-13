@@ -20,7 +20,7 @@ public class Job {
     }
 
     void onStop(@Observes ShutdownEvent ev) {
-        log.info("The " + "application is stoping...");
+        log.info("The application is stoping...");
         vertx.deploymentIDs().forEach(vertx::undeployAndForget);
         Quarkus.asyncExit();
     }

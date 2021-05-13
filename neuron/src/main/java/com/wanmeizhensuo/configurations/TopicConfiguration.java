@@ -6,9 +6,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ConfigProperties(prefix = "middleware.topic")
 public class TopicConfiguration {
 
-    @ConfigProperty(name = "doctor-sync")
-    public String doctorSync;
+    @ConfigProperty(name = "doctor-topic")
+    public String doctorTopic;
 
-    @ConfigProperty(name = "doctor-group")
-    public String doctorGroup;
+    @ConfigProperty(name = "city-topic")
+    public String cityTopic;
 }

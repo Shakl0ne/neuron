@@ -4,43 +4,24 @@ import org.apache.kafka.common.serialization.Serdes;
 
 import java.util.UUID;
 
-/**
- * TODO
- *
- * @author mars
- * @version 1.0.0
- * @since 2021/03/24 18:27
- */
 public class WorkFlow {
     String name;
     Select select;
-
     String groupId;
-    /**
-     *  kafka servers
-     */
     String bootstrapServers;
-    /**
-     *
-     */
-    Class<?> defaultKeySerde = Serdes.String().getClass();
-    /**
-     *
-     */
-    Class<?> defaultValueSerde = Serdes.String().getClass();
-    /**
-     *  消费者数目
-     */
-    int consumerCount = 1;
 
+    Class<?> defaultKeySerde = Serdes.String().getClass();
+    Class<?> defaultValueSerde = Serdes.String().getClass();
+
+    int consumerCount = 1;
     String tpc = null;
 
-    WorkFlow(String name) {
+    WorkFlow(String name){
         this.name = name;
     }
 
     WorkFlow() {
-        this.name = "sync-stream-"+ UUID.randomUUID().toString();
+        this.name = "sync-stream-" + UUID.randomUUID().toString();
     }
 
     public WorkFlow topic(String topic) {
@@ -105,4 +86,3 @@ public class WorkFlow {
         return new WorkFlow();
     }
 }
-
