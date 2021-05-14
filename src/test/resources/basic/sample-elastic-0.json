@@ -1,0 +1,68 @@
+[
+  [
+    "from",
+    "simple.database.table.topic",
+    [
+      "join",
+      {
+        "source": "source0",
+        "table": "table name",
+        "on": [
+          "field.name.or.path",
+          "table.field.name"
+        ]
+      },
+      {
+        "source": "source",
+        "as": "source1",
+        "table": "table name",
+        "on": [
+          "field.name.or.path",
+          "table.field.name"
+        ]
+      }
+    ]
+  ],
+  [
+    "object",
+    {
+      "field0": "field0",
+      "field1": [
+        "source0",
+        "field1"
+      ],
+      "field2": [
+        "from",
+        "source1",
+        "field2.or.path"
+      ],
+      "field3": [
+        "object",
+        {
+          "field3.0": [
+            "from",
+            "source0",
+            "field2.or.path"
+          ],
+          "field3.1": "field4"
+        }
+      ],
+      "field4": [
+        "list",
+        "field7",
+        [
+          "from",
+          "source",
+          "path.or.field"
+        ]
+      ]
+    }
+  ],
+  [
+    "saveTo",
+    {
+      "name": "es name",
+      "path": "index path"
+    }
+  ]
+]
