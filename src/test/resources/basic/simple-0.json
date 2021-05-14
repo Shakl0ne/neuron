@@ -1,0 +1,30 @@
+[
+  [
+    "from",
+    "simple.database.table.topic"
+  ],
+  [
+    "select",
+    [
+      "field1",
+      "field2",
+      "field3",
+      [
+        "named",
+        "field4",
+        "caption-0"
+      ],
+      [
+        "named",
+        [
+          "replace",
+          "field5",
+          "sub",
+          "content"
+        ],
+        "caption-1"
+      ]
+    ]
+  ],
+  ["saveTo", "source name"]
+]
