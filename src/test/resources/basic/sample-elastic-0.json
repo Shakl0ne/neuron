@@ -1,4 +1,4 @@
-[
+["flow",
   [
     "from",
     "simple.database.table.topic",
@@ -24,7 +24,7 @@
     ]
   ],
   [
-    "object",
+    "select",
     {
       "field0": "field0",
       "field1": [
@@ -59,7 +59,7 @@
     }
   ],
   [
-    "saveTo",
+    "saveToEs",
     {
       "name": "es name",
       "path": "index path"

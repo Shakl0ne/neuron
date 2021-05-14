@@ -1,4 +1,4 @@
-[
+["flow",
   [
     "from",
     "simple.database.table.topic"
@@ -26,5 +26,5 @@
       ]
     ]
   ],
-  ["saveTo", "source name"]
+  ["saveTo(PG)", "source name"]
 ]
