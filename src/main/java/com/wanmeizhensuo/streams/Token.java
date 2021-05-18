@@ -10,7 +10,7 @@ import jaskell.sql.Left;
  * @since 2021/03/15 18:13
  */
 public class Token {
-    String token;
+    private String token;
 
     public Token(String token) {
         this.token = token;
@@ -25,26 +25,42 @@ public class Token {
         return token;
     }
 
-    public static class Left extends Token {
-        public Left() {
+    public static class OpenSqu extends Token {
+        public OpenSqu() {
             super("[");
         }
     }
 
-    public static class Right extends Token {
-        public Right() {
+    public static class CloseSqu extends Token {
+        public CloseSqu() {
             super("]");
         }
     }
 
-
-    public static Left left() {
-        return new Left();
+    public static class OpenCur extends Token {
+        public OpenCur() {
+            super("{");
+        }
     }
 
-    public static Right right() {
-        return new Right();
+    public static class CloseCur extends Token {
+        public  CloseCur() {
+            super("}");
+        }
     }
+
+
+    public static OpenSqu openSqu() {
+        return new OpenSqu();
+    }
+
+    public static CloseSqu closeSqu() {
+        return new CloseSqu();
+    }
+
+    public static OpenCur openCur() { return new OpenCur(); }
+
+    public static CloseCur closeCur() { return new CloseCur(); }
 
     public static Token token(String token) {
         return new Token(token);

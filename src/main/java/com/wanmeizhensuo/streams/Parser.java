@@ -61,7 +61,7 @@ public class Parser implements Parsec<Token, SyncStream> {
     }
 
     public String getParam(String functionName, State<Token> s) throws Throwable {
-        return between(new Left(), new Right(), new Func(functionName).then(new Text())).parse(s);
+        return between(new Left(), new Right(),  new Func(functionName).then(new Text())).parse(s);
     }
 
     public class Left implements Parsec<Token, Token> {
