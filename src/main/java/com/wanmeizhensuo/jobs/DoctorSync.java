@@ -42,9 +42,7 @@ public class DoctorSync {
                     .pKey().int32("id")
                         .text("doctor_name")
                         .int32("tag_id")
-                )
-
-                .saveTo().schema("public").table("doctor_sync").pool(gmmerchant)
+                ).saveTo().schema("public").table("doctor_sync").pool(gmmerchant)
                 .deploy(vertx);
     }
 

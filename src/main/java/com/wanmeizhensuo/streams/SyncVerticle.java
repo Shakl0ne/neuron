@@ -38,6 +38,8 @@ public class SyncVerticle extends AbstractVerticle {
     KafkaConsumer<Object, Object> consumer;
     boolean running = false;
     boolean success = false;
+    String appName;
+    String topic;
 
     Duration pullTimeout;
     int batchSize;
@@ -54,6 +56,7 @@ public class SyncVerticle extends AbstractVerticle {
     public SyncVerticle(Sink workflow) {
 
         this.workflow = workflow;
+        this.topic = this.workflow.getFlow().getTopic();
         log.info("sync job {} select {} created", this.workflow.getFlow().getTopic(), this.workflow.getSelect());
     }
 
@@ -69,6 +72,7 @@ public class SyncVerticle extends AbstractVerticle {
         consumer = KafkaConsumer.create(io.vertx.mutiny.core.Vertx.newInstance(vertx), settings);
 
 //        log.info("sync job {} inited", this.workflow.getFlow().getTopic());
+        appName = ConfigProvider.getConfig().getValue("quarkus.application.name", String.class);
 
         pullTimeout =
                 Duration.ofMillis(ConfigProvider.getConfig().getValue("middleware.neuron.sync.pull-timeout.millis",
