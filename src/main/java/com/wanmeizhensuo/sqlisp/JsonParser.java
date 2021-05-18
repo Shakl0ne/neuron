@@ -1,21 +1,21 @@
 package com.wanmeizhensuo.sqlisp;
 
-import com.wanmeizhensuo.streams.Token;
+import com.wanmeizhensuo.streams.parser.Token;
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.ParsecException;
 import jaskell.parsec.common.State;
 
 import java.io.EOFException;
+import java.util.List;
 
 public class JsonParser implements Parsec<Token, Token>{
     public JsonParser() {
     }
 
     @Override
-    public class parse(State<Token> s){
-
+    public Token parse(State<Token> s) throws Throwable {
+        return null;
     }
-
 
     public class OpenSqu implements jaskell.parsec.common.Parsec<Token, Token> {
         @Override
@@ -74,9 +74,9 @@ public class JsonParser implements Parsec<Token, Token>{
         public String parse(State<Token> s) throws EOFException, ParsecException {
             var item = s.next();
             if (item != null) {
-                return item.getToken();
+                return item.getContent().toString();
             } else {
-                var message = String.format("expect text token but get %s", item.toString());
+                var message = String.format("expect text token but get %s", item.getContent().toString());
                 throw s.trap(message);
             }
         }

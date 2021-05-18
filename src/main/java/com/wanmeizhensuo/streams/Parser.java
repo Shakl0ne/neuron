@@ -2,6 +2,8 @@ package com.wanmeizhensuo.streams;
 
 import com.wanmeizhensuo.streams.flow.WorkFlow;
 import com.wanmeizhensuo.streams.flow.Select;
+import com.wanmeizhensuo.streams.parser.Token;
+import com.wanmeizhensuo.streams.parser.TokenType;
 import io.vertx.mutiny.sqlclient.Pool;
 import jaskell.parsec.ParsecException;
 import jaskell.parsec.common.Attempt;
@@ -68,7 +70,7 @@ public class Parser implements Parsec<Token, SyncStream> {
         @Override
         public Token parse(State<Token> s) throws EOFException, ParsecException {
             var item = s.next();
-            if (item instanceof Token.Left) {
+            if (item.getType() == TokenType.OPEN_SQUARE_BRACKET) {
                 return item;
             } else {
                 var message = String.format("expect left token but get %s", item.toString());
@@ -81,7 +83,7 @@ public class Parser implements Parsec<Token, SyncStream> {
         @Override
         public Token parse(State<Token> s) throws EOFException, ParsecException {
             var item = s.next();
-            if (item instanceof Token.Right) {
+            if (item.getType() == TokenType.CLOSE_SQUARE_BRACKET) {
                 return item;
             } else {
                 var message = String.format("expect right token but get %s", item.toString());
@@ -95,9 +97,11 @@ public class Parser implements Parsec<Token, SyncStream> {
         public String parse(State<Token> s) throws EOFException, ParsecException {
             var item = s.next();
             if (item != null) {
-                return item.token;
+                return item.getContent().toString();
             } else {
-                var message = String.format("expect text token but get %s", item.toString());
+                var message = String.format("expect text token but %s is %s",
+                        item.getContent().toString(),
+                        item.getContent().getClass());
                 throw s.trap(message);
             }
         }
@@ -156,10 +160,10 @@ public class Parser implements Parsec<Token, SyncStream> {
         @Override
         public String parse(State<Token> s) throws EOFException, ParsecException {
             var t = s.next();
-            if (t.token.equals(name)) {
+            if (t.getContent().equals(name)) {
                 return name;
             } else {
-                var message = String.format("expect funct %s but get %s", name, t.token);
+                var message = String.format("expect func %s but get %s", name, t.getContent().toString());
                 throw s.trap(message);
             }
         }

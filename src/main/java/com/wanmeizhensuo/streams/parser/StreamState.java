@@ -1,4 +1,4 @@
-package com.wanmeizhensuo.streams;
+package com.wanmeizhensuo.streams.parser;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -8,6 +8,7 @@ import jaskell.parsec.common.State;
 import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TODO
@@ -74,28 +75,33 @@ public class StreamState implements State<Token> {
     }
 
 
-    public StreamState(JsonArray content) throws Throwable {
-        content.forEach(this::loadItem);
+    public StreamState(Object content) throws Throwable {
+        this.loadItem(content);
     }
 
     void loadItem(Object data) {
         if(data instanceof JsonArray) {
             buffer.add(Token.openSqu());
-//            var items = (JsonArray)data;
-//            buffer.add(new Token(items.getString(0)));
             ((JsonArray)data).forEach(this::loadItem);
             buffer.add(Token.closeSqu());
+            return;
         }
 
         if(data instanceof JsonObject) {
             buffer.add(Token.openCur());
             ((JsonObject)data).forEach(this::loadItem);
             buffer.add(Token.closeCur());
+            return;
         }
 
-        if(data instanceof String) {
-            buffer.add(Token.token(data.toString()));
+        if(data instanceof Map.Entry){
+            var entry = (Map.Entry)data;
+            buffer.add(Token.token(entry.getKey()));
+            buffer.add(Token.token(entry.getValue()));
+            return;
         }
+
+        buffer.add(Token.token(data));
     }
 
     public List<Token> getBuffer(){
