@@ -1,6 +1,7 @@
 package com.wanmeizhensuo.streams;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import jaskell.parsec.ParsecException;
 import jaskell.parsec.common.State;
 
@@ -26,9 +27,9 @@ public class StreamState implements State<Token> {
         if (this.current >= this.buffer.size()) {
             throw new EOFException();
         }
-        Token re = this.buffer.get(this.current);
+        Token cur_token = this.buffer.get(this.current);
         this.current++;
-        return re;
+        return cur_token;
     }
 
     @Override
@@ -79,11 +80,17 @@ public class StreamState implements State<Token> {
 
     void loadItem(Object data) {
         if(data instanceof JsonArray) {
-            buffer.add(Token.left());
+            buffer.add(Token.openSqu());
 //            var items = (JsonArray)data;
 //            buffer.add(new Token(items.getString(0)));
             ((JsonArray)data).forEach(this::loadItem);
-            buffer.add(Token.right());
+            buffer.add(Token.closeSqu());
+        }
+
+        if(data instanceof JsonObject) {
+            buffer.add(Token.openCur());
+            ((JsonObject)data).forEach(this::loadItem);
+            buffer.add(Token.closeCur());
         }
 
         if(data instanceof String) {
