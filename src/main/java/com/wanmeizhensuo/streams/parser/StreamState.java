@@ -97,7 +97,7 @@ public class StreamState implements State<Token> {
         if(data instanceof Map.Entry){
             var entry = (Map.Entry)data;
             buffer.add(Token.token(entry.getKey()));
-            buffer.add(Token.token(entry.getValue()));
+            this.loadItem(entry.getValue());
             return;
         }
 
