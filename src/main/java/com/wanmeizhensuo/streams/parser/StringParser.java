@@ -7,7 +7,7 @@ import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 import jaskell.parsec.common.TxtState;
 
-import static jaskell.parsec.Atom.one;
+import static jaskell.parsec.common.Atom.one;
 import static jaskell.parsec.common.Combinator.*;
 import static jaskell.parsec.common.Txt.*;
 
