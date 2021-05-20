@@ -13,6 +13,7 @@ public enum TokenType {
     FLOAT,
     DOUBLE,
     BOOLEAN,
+    NAME,
     STRING,
     OPEN_SQUARE_BRACKET,
     CLOSE_SQUARE_BRACKET,

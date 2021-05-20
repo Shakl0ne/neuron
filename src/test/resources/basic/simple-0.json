@@ -19,8 +19,8 @@
         [
           "replace",
           "field5",
-          "sub",
-          "content"
+          "'sub'",
+          "'content'"
         ],
         "caption-1"
       ]

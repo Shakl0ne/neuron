@@ -88,7 +88,7 @@ public class Token {
 
     public static Token token(Object token) {
         if (token instanceof String) {
-            return new Token(token, STRING);
+            return new Token(token, NAME);
         }
         if (token instanceof Integer) {
             return new Token(token, INTEGER);

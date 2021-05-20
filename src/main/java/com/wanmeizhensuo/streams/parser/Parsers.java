@@ -13,9 +13,11 @@ public class Parsers {
     public static OpenCurlyParser openCurly() {
         return new OpenCurlyParser();
     }
+
     public static OpenSquareParser openSquare() {
         return new OpenSquareParser();
     }
+
     public static CloseCurlyParser closeCurly() {
         return new CloseCurlyParser();
     }
@@ -24,21 +26,84 @@ public class Parsers {
         return new CloseSquareParser();
     }
 
-    public static Parsec<Token, Token> str(String token) {
-        return token(new Token(token, TokenType.STRING));
-    }
-
-    public static Parsec<Token, Token> str() {
+    public static Parsec<Token, Token> nameT() {
         return s -> {
             var result = s.next();
-            if(result.type == TokenType.STRING){
+            if(result.type == TokenType.NAME){
                 return result;
             } else {
-                var message = String.format("expect a string token but type of %s is %s",
+                var message = String.format("expect a name token but type of %s is %s",
                         result, result.type);
                 throw s.trap(message);
             }
         };
+    }
+
+
+    public static Parsec<Token, Token> integerT() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.INTEGER){
+                return result;
+            } else {
+                var message = String.format("expect a integer token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
+    public static Parsec<Token, Token> longT() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.LONG){
+                return result;
+            } else {
+                var message = String.format("expect a long token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
+    public static Parsec<Token, Token> floatT() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.FLOAT){
+                return result;
+            } else {
+                var message = String.format("expect a float token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
+    public static Parsec<Token, Token> doubleT() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.DOUBLE){
+                return result;
+            } else {
+                var message = String.format("expect a double token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
+    public static Parsec<Token, Token> booleanT() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.BOOLEAN){
+                return result;
+            } else {
+                var message = String.format("expect a boolean token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
+
+
+    public static Parsec<Token, Token> nameT(String token) {
+        return token(new Token(token, TokenType.NAME));
     }
 
     public static Parsec<Token, Token> integerT(Integer token){
@@ -57,9 +122,7 @@ public class Parsers {
         return token(new Token(token, TokenType.DOUBLE));
     }
 
-    public static Parsec<Token, Token> bool(Boolean token){
-        return token(new Token(token, TokenType.BOOLEAN));
-    }
+    public static Parsec<Token, Token> booleanT(Boolean token){ return token(new Token(token, TokenType.BOOLEAN)); }
 
     public static Parsec<Token, Token> nullT(){
         return token(new Token(null, TokenType.NULL));
