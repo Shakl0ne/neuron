@@ -1,14 +1,18 @@
 package com.wanmeizhensuo.streams.parser;
 
+import com.google.errorprone.annotations.Var;
+import jaskell.parsec.common.One;
+import jaskell.parsec.common.Parsec;
 
-import jaskell.parsec.common.*;
+import jaskell.parsec.common.State;
+import jaskell.parsec.common.TxtState;
 
 import static jaskell.parsec.common.Atom.one;
 import static jaskell.parsec.common.Combinator.*;
 import static jaskell.parsec.common.Txt.*;
 
 public class StringParser implements Parsec<Token, Token> {
-    final Parsec<Character, Character> character = new One<>();
+    final Parsec<Character, Character> character = one();
     final Parsec<Character, Character> escapeCharacter = ch('\\').then(s -> {
         Character c = s.next();
         switch (c) {
@@ -25,7 +29,7 @@ public class StringParser implements Parsec<Token, Token> {
         }
     });
     final Parsec<Character, String> parser = between(ch('\''), ch('\''),
-            many(choice(attempt(escapeCharacter),character)).bind(joinChars()));
+            many(choice(attempt(escapeCharacter), character))).bind(joinChars());
 
     @Override
     public Token parse(State<Token> s) throws Throwable {
@@ -36,7 +40,6 @@ public class StringParser implements Parsec<Token, Token> {
             throw s.trap(message);
         }
         var state = new TxtState(token.content.toString());
-
         var content = parser.parse(state);
         return new Token(content, TokenType.STRING);
     }
