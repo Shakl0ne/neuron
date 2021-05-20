@@ -13,7 +13,15 @@ public class StringParserTests {
         var state = new StreamState(data);
         String result = "sub";
         var parser = new StringParser();
-        /*Assert.assertEquals(result,parser.parse(state));*/
-        System.out.println(parser.parse(state));
+        Assert.assertEquals(result,parser.parse(state));
     }
+    @Test
+    public void testSample1() throws Throwable {
+        var data = Json.decodeValue("\"'sub str'ing'\" ");
+        var state = new StreamState(data);
+        String result = "sub str'ing";
+        var parser = new StringParser();
+        Assert.assertEquals(result,parser.parse(state));
+    }
+
 }

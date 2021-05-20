@@ -7,12 +7,13 @@ import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 import jaskell.parsec.common.TxtState;
 
+import static jaskell.parsec.common.Atom.eof;
 import static jaskell.parsec.common.Atom.one;
 import static jaskell.parsec.common.Combinator.*;
 import static jaskell.parsec.common.Txt.*;
 
-public class StringParser implements Parsec<Token, Token> {
-    final Parsec<Character, Character> character = one();
+public class StringParser implements Parsec<Token, String> {
+    final Parsec<Character, Character> character = nCh('\'');
     final Parsec<Character, Character> escapeCharacter = ch('\\').then(s -> {
         Character c = s.next();
         switch (c) {
@@ -32,7 +33,7 @@ public class StringParser implements Parsec<Token, Token> {
             many(choice(attempt(escapeCharacter), character))).bind(joinChars());
 
     @Override
-    public Token parse(State<Token> s) throws Throwable {
+    public String parse(State<Token> s) throws Throwable {
         var token = s.next();
         if (token.type != TokenType.STRING){
             var message = String.format("expect a string token but get %s type %s",
@@ -40,7 +41,6 @@ public class StringParser implements Parsec<Token, Token> {
             throw s.trap(message);
         }
         var state = new TxtState(token.content.toString());
-        var content = parser.parse(state);
-        return new Token(content, TokenType.STRING);
+        return parser.parse(state);
     }
 }
