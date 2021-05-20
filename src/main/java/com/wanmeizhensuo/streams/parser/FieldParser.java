@@ -10,7 +10,7 @@ import static jaskell.parsec.common.Combinator.*;
 import static com.wanmeizhensuo.streams.parser.Parsers.*;
 
 public class FieldParser implements Parsec<Token, List<Object>> {
-    Parsec<Token, List<Token>> parser = between(openSquare(),closeSquare(),
+    final Parsec<Token, List<Token>> parser = between(openSquare(),closeSquare(),
             many1(choice(attempt(Parsers.nameT()),attempt(integerT()),attempt(longT()),
                     attempt(doubleT()),attempt(floatT()),attempt(booleanT()),attempt(nullT()))));
 

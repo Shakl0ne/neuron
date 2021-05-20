@@ -88,6 +88,9 @@ public class Token {
 
     public static Token token(Object token) {
         if (token instanceof String) {
+            if ( ((String) token).startsWith("'") && ((String) token).endsWith("'")) {
+                return new Token(token, STRING);
+            }
             return new Token(token, NAME);
         }
         if (token instanceof Integer) {
