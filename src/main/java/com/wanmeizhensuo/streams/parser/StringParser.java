@@ -38,7 +38,6 @@ public class StringParser implements Parsec<Token, String> {
                     token.content, token.type);
             throw s.trap(message);
         }
-        System.out.println(token.content.toString());
         var state = new TxtState(token.content.toString());
         return parser.parse(state);
     }

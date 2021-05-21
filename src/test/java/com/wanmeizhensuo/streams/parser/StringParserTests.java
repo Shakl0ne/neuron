@@ -25,9 +25,9 @@ public class StringParserTests {
     }
     @Test
     public void testSample2() throws Throwable {
-        var data = Json.decodeValue("\"'elon\\\\tmusk'\" ");
+        var data = Json.decodeValue("\"'elon\\\\'musk'\"");
         var state = new StreamState(data);
-        String result = "elon\tmusk";
+        String result = "elon'musk";
         var parser = new StringParser();
         Assert.assertEquals(result,parser.parse(state));
     }
