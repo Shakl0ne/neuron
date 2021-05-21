@@ -36,7 +36,6 @@ public class SelectParserTests {
         var data = Json.decodeValue("[\"select\",\"field1\",[ \"field2\",\"field3\" ]]");
         var state = new StreamState(data);
         var parser = new SelectParser();
-        System.out.println(parser.parse(state));
     }
 
 }
