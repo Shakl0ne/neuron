@@ -1,14 +1,10 @@
 package com.wanmeizhensuo.streams.parser;
 
-import com.google.errorprone.annotations.Var;
-import jaskell.parsec.common.One;
 import jaskell.parsec.common.Parsec;
 
 import jaskell.parsec.common.State;
 import jaskell.parsec.common.TxtState;
 
-import static jaskell.parsec.common.Atom.eof;
-import static jaskell.parsec.common.Atom.one;
 import static jaskell.parsec.common.Combinator.*;
 import static jaskell.parsec.common.Txt.*;
 

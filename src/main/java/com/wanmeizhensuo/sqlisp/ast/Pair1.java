@@ -1,12 +1,9 @@
 package com.wanmeizhensuo.sqlisp.ast;
 
-import jaskell.parsec.ParsecException;
-import jaskell.parsec.common.Attempt;
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import java.io.EOFException;
 
 public class Pair1<E, T> implements Parsec<E, ImmutablePair<T,T>> {
     private final Parsec<E, T> p1;
