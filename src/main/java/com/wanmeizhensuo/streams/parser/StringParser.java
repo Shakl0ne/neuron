@@ -13,7 +13,7 @@ import static jaskell.parsec.common.Combinator.*;
 import static jaskell.parsec.common.Txt.*;
 
 public class StringParser implements Parsec<Token, String> {
-    final Parsec<Character, Character> character = nCh('\'');
+    final Parsec<Character, Character> character = nCh('\'',true);
     final Parsec<Character, Character> escapeCharacter = ch('\\').then(s -> {
         Character c = s.next();
         switch (c) {
@@ -25,6 +25,8 @@ public class StringParser implements Parsec<Token, String> {
                 return '\t';
             case '"':
                 return '"';
+            case '\'':
+                return '\'';
             default:
                 throw s.trap(String.format("invalid char  \\%c", c));
         }
@@ -40,6 +42,7 @@ public class StringParser implements Parsec<Token, String> {
                     token.content, token.type);
             throw s.trap(message);
         }
+        System.out.println(token.content.toString());
         var state = new TxtState(token.content.toString());
         return parser.parse(state);
     }
