@@ -1,9 +1,8 @@
-package com.wanmeizhensuo.sqlisp.ast;
+package com.wanmeizhensuo.streams.parser.common;
 
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 
-import javax.ws.rs.core.Link;
 import java.util.LinkedHashMap;
 
 public class Dictionary<E, T> implements Parsec<E, LinkedHashMap<T,T>> {
@@ -12,6 +11,7 @@ public class Dictionary<E, T> implements Parsec<E, LinkedHashMap<T,T>> {
     @Override
     public LinkedHashMap<T,T> parse(State<E> s) throws Throwable {
         LinkedHashMap<T,T> dict = new LinkedHashMap<T, T>(5, (float) 0.8,false);
+        dict.put(this.p1.parse(s),this.p2.parse(s));
         return dict;
     }
 

@@ -1,4 +1,4 @@
-package com.wanmeizhensuo.sqlisp.ast;
+package com.wanmeizhensuo.streams.parser.common;
 
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;

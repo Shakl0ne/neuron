@@ -1,7 +1,8 @@
-package com.wanmeizhensuo.streams.parser;
+package com.wanmeizhensuo.streams;
 
+import com.wanmeizhensuo.streams.parser.StreamState;
+import com.wanmeizhensuo.streams.parser.Token;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import jaskell.parsec.common.Parsec;
 import org.junit.Assert;
 import org.junit.Test;

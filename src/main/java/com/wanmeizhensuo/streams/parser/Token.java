@@ -111,6 +111,7 @@ public class Token {
         if(token == null) {
             return new Token(null, NULL);
         }
+
         String message = String.format("unsupported item %s type %s", token.toString(), token.getClass());
         throw new IllegalArgumentException(message);
     }

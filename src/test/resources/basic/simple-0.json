@@ -1,4 +1,4 @@
-["flow",
+["flow", "flow name",
   [
     "from",
     "simple.database.table.topic"
