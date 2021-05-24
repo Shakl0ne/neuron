@@ -8,9 +8,9 @@ import org.junit.Test;
 public class SaveToParserTests {
     @Test
     public void testSample0() throws Throwable {
-        var data = Json.decodeValue("[\"saveTo(PG)\",\"source name\"]");
+        var data = Json.decodeValue("[\"saveTo()\",\"source name\"]");
         var state = new StreamState(data);
-        ImmutablePair res = new ImmutablePair("saveTo(PG)","source name");
+        ImmutablePair res = new ImmutablePair("","source name");
         var parser = new SaveToParser();
         Assert.assertEquals(res,parser.parse(state));
     }
