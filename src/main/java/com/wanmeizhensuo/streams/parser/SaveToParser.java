@@ -20,13 +20,17 @@ public class SaveToParser implements Parsec<Token, ImmutablePair<String, String>
 
         var result = parser.parse(s);
 
-        Pattern p = Pattern.compile("saveTo\\(?^(?!\\s*$).+\\)?");
+        Pattern p = Pattern.compile("saveTo\\(?(.+?)\\)?");
         Matcher m = p.matcher(result.left.content.toString());
 
         if (m.find()) {
             var left = result.left.content.toString().replaceAll("saveTo", "");
             if (left.startsWith("(") && left.endsWith(")")) {
                 left = left.substring(1, left.length() - 1);
+            }
+            if (left.isBlank()) {
+                var message = String.format("need database name");
+                throw s.trap(message);
             }
             ImmutablePair res = new ImmutablePair(left, result.right.content.toString());
             return res;
