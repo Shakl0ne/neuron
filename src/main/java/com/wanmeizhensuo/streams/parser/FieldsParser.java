@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static jaskell.parsec.common.Combinator.*;
-import static jaskell.parsec.common.Atom.eof;
-import static com.wanmeizhensuo.streams.parser.Parsers.*;
+import static com.wanmeizhensuo.streams.parser.Combinator.*;
 
 public class FieldsParser implements Parsec<Token, List<Object>> {
     final Parsec<Token, Token> oneToken = choice(attempt(nameT()),attempt(integerT()),attempt(longT()),
                     attempt(doubleT()),attempt(floatT()),attempt(booleanT()),attempt(nullT()));
 
 
-    final Parsec<Token, List<Token>> parser = between(openSquare(),closeSquare(),
+    final Parsec<Token, List<Token>> parser = between(openSquareParser(), closeSquareParser(),
             many1(choice(oneToken)));
 
     @Override

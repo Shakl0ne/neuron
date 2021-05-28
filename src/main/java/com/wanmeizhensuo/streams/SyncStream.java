@@ -20,34 +20,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 public class SyncStream {
 
-    /**
-     *  同步名称
-     */
     private String syncName;
-    /**
-     *  kafka servers
-     */
     private String bootstrapServers;
-    /**
-     *
-     */
     private Class<?> defaultKeySerde = Serdes.String().getClass();
-    /**
-     *
-     */
     private Class<?> defaultValueSerde = Serdes.String().getClass();
-    /**
-     *  消费者数目
-     */
     private int consumerCount = 1;
-
-    /**
-     *
-     */
     private StreamsBuilder builder;
-    /**
-     *
-     */
     private KafkaStreams kafkaStreams;
     /**
      *  异常回调函数
@@ -190,7 +168,7 @@ public class SyncStream {
         void handle(JsonObject message, Exception ex);
     }
 
-    public static WorkFlow from(String name) {
+    public static WorkFlow flow(String name) {
         return WorkFlow.flow(name);
     }
 }

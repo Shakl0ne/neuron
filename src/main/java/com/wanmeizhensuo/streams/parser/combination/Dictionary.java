@@ -1,4 +1,4 @@
-package com.wanmeizhensuo.streams.parser.common;
+package com.wanmeizhensuo.streams.parser.combination;
 
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;

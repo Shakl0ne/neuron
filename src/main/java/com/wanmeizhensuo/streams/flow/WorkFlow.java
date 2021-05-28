@@ -20,7 +20,7 @@ public class WorkFlow {
         this.name = name;
     }
 
-    WorkFlow() {
+    public WorkFlow() {
         this.name = "sync-stream-" + UUID.randomUUID().toString();
     }
 

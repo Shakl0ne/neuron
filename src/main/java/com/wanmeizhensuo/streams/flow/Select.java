@@ -26,6 +26,12 @@ public class Select {
     LinkedHashMap<String, ColumnDefine> defines = new LinkedHashMap<>();
     LinkedHashSet<String> pKey = new LinkedHashSet<>();
 
+    public Select identity(String column) {
+        defines.put(column, new ColumnDefine(column, column,
+                obj -> obj.getValue(column), ColumnDefine.Type.ANY));
+        return this;
+    }
+
     public Select int32(String name, String column) {
         defines.put(name, new ColumnDefine(name, "int32", column,
                 obj -> obj.getInteger(name), ColumnDefine.Type.INTEGER));
@@ -94,13 +100,13 @@ public class Select {
         return this;
     }
 
-    public Select intToBool(String name, Function<JsonObject, Boolean> func) {
-        defines.put(name, new ColumnDefine(name, "intToBool", func, ColumnDefine.Type.BOOLEAN));
+    public Select int2Bool(String name, Function<JsonObject, Boolean> func) {
+        defines.put(name, new ColumnDefine(name, "int2Bool", func, ColumnDefine.Type.BOOLEAN));
         return this;
     }
 
     public Select long2Timestamp(String name, Function<JsonObject, LocalDateTime> func) {
-        defines.put(name, new ColumnDefine(name, "longToTimestamp", func, ColumnDefine.Type.TIMESTAMP));
+        defines.put(name, new ColumnDefine(name, "long2Timestamp", func, ColumnDefine.Type.TIMESTAMP));
         return this;
     }
 
@@ -157,6 +163,7 @@ public class Select {
     }
 
     void addParameter(Tuple params, ColumnDefine define, JsonObject data) {
+
         switch (define.type) {
             case INTEGER:
                 params.addInteger(extractValue(data, define.func, Integer.class));
@@ -359,8 +366,8 @@ public class Select {
         return bool(name, obj -> obj.getBoolean(name, null));
     }
 
-    public Select intToBool(String name) {
-        return intToBool(name, obj -> {
+    public Select int2Bool(String name) {
+        return int2Bool(name, obj -> {
             if (obj.containsKey(name) && obj.getValue(name) != null) {
                 return BooleanUtils.toBoolean(obj.getInteger(name));
             } else {
@@ -369,8 +376,8 @@ public class Select {
         });
     }
 
-    public Select intToBool(String name, boolean defaultValue) {
-        return intToBool(name, obj -> {
+    public Select int2Bool(String name, boolean defaultValue) {
+        return int2Bool(name, obj -> {
             if (obj.containsKey(name) && obj.getValue(name) != null) {
                 return BooleanUtils.toBoolean(obj.getInteger(name));
             } else {

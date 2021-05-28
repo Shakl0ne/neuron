@@ -236,7 +236,8 @@ public class SyncVerticle extends AbstractVerticle {
                 var op = pair.getKey();
                 if (op.equals(current)) {
                     parameters.add(pair.getValue());
-                } else {
+                }
+                else {
                     log.info("save {} with {}", workflow.getFlow().getName(), current);
                     var params = new ArrayList<>(parameters);
                     var cur = current;
@@ -293,6 +294,7 @@ public class SyncVerticle extends AbstractVerticle {
     public Uni<Void> asyncStop() {
         vertx.cancelTimer(timerId);
         pgPool.close();
+        System.out.println(consumer);
         if (consumer != null) {
             return consumer.close();
         } else {

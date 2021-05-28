@@ -50,6 +50,7 @@ public class ColumnDefine {
         DATE,
         TIMESTAMP,
         BOOLEAN,
-        STRING;
+        STRING,
+        ANY;
     }
 }

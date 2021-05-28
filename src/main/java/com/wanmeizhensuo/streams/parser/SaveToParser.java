@@ -1,6 +1,5 @@
 package com.wanmeizhensuo.streams.parser;
 
-import jaskell.parsec.ParsecException;
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -8,12 +7,12 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.wanmeizhensuo.streams.parser.Parsers.*;
+import static com.wanmeizhensuo.streams.parser.Combinator.*;
 import static jaskell.parsec.common.Combinator.*;
 import static com.wanmeizhensuo.streams.parser.common.Pair1.pair1;
 
 public class SaveToParser implements Parsec<Token, ImmutablePair<String, String>> {
-    final Parsec<Token, ImmutablePair<Token, Token>> parser = between(openSquare(), closeSquare(), pair1(nameT(), nameT()));
+    final Parsec<Token, ImmutablePair<Token, Token>> parser = between(openSquareParser(), closeSquareParser(), pair1(nameT(), nameT()));
 
     @Override
     public ImmutablePair<String, String> parse(State<Token> s) throws Throwable {

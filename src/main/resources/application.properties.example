@@ -24,6 +24,13 @@
 #
 #quarkus.arc.auto-producer-methods=true
 
+
+
+
+#quarkus.hibernate-orm.database.generation=drop-and-create
+#quarkus.hibernate-orm.log.sql=true
+#quarkus.hibernate-orm.sql-load-script=import.sql
+
 #
 # The default naming strategy for {@link ConfigProperties.NamingStrategy}. The allowed values are determined
 # by that enum
@@ -497,7 +504,7 @@
 #
 # The kind of database we will connect to (e.g. h2, postgresql...).
 #
-#quarkus.datasource.db-kind=
+#quarkus.datasource.db-kind=postgresql
 
 #
 # If DevServices has been explicitly enabled or disabled. DevServices is generally enabled
@@ -523,7 +530,7 @@
 #
 
 #
-#quarkus.datasource.driver=
+#quarkus.datasource.driver=org.postgresql.Driver
 
 #
 # Whether or not an health check is published in case the smallrye-health extension is present.
@@ -545,7 +552,7 @@
 #
 # The datasource password
 #
-#quarkus.datasource.password=
+#quarkus.datasource.password=quarkus
 
 #
 # If we create a Reactive datasource for this datasource.
@@ -730,7 +737,8 @@
 #
 # The datasource URL.
 #
-#quarkus.datasource.reactive.url=
+#quarkus.datasource.reactive.url=vertx-reactive:postgresql://${POSTGRES_HOST:localhost}/${POSTGRES_DB:postgres}
+
 
 #
 # If this is true then when running in dev or test mode Quarkus will attempt to start a testcontainers based
@@ -743,12 +751,13 @@
 #
 
 #
-#quarkus.datasource.url=
-
+#quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/postgres
+#quarkus.datasource.jdbc.max-size=8
+#quarkus.datasource.jdbc.min-size=2
 #
 # The datasource username
 #
-#quarkus.datasource.username=
+#quarkus.datasource.username=quarkus
 
 #
 # If set to a directory, all generated classes will be written into that directory
@@ -1553,7 +1562,7 @@
 # A comma-separated list of host:port pairs identifying the Kafka bootstrap server(s).
 # If not set, fallback to 'kafka.bootstrap.servers', and if not set either use 'localhost:9012'.
 #
-#quarkus.kafka-streams.bootstrap-servers=localhost:9012
+#quarkus.kafka-streams.bootstrap-servers=localhost:29092
 
 #
 # Whether or not a health check is published in case the smallrye-health extension is present (defaults to true).
@@ -1575,6 +1584,13 @@
 #
 #quarkus.kafka-streams.sasl.kerberos-kinit-cmd=
 
+#mp.messaging.outgoing.sink.connector=smallrye-kafka
+#mp.messaging.outgoing.sink.topic=doctorSync
+#mp.messaging.incoming.source.health-readiness-enabled=false
+#mp.messaging.outgoing.sink.value.serializer=org.apache.kafka.common.serialization.IntegerSerializer
+#
+#mp.messaging.incoming.source.connector=smallrye-kafka
+#mp.messaging.incoming.source.value.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
 #
 # Percentage of random jitter added to the renewal time
 #

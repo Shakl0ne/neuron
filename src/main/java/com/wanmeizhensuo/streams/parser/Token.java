@@ -22,7 +22,7 @@ import static com.wanmeizhensuo.streams.parser.TokenType.*;
 @Builder
 public class Token {
     Object content;
-    TokenType type;
+    public TokenType type;
 
     @Override
     public String toString() {

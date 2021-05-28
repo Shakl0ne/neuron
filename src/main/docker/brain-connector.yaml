@@ -1,0 +1,105 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    app: middleware-debezium-pg-connect
+  name: middleware-debezium-pg-connect
+  namespace: pipeline-test
+spec:
+  progressDeadlineSeconds: 2147483647
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: middleware-debezium-pg-connect
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: middleware-debezium-pg-connect
+    spec:
+      containers:
+        - env:
+            - name: REST_ADVERTISED_HOST_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: BOOTSTRAP_SERVERS
+              value: 172.18.30.14:9092
+            - name: CONNECT_GROUP_ID
+              value: middleware-debezium-pg-sync
+            - name: CONFIG_STORAGE_TOPIC
+              value: debezium-pg-sync-config
+            - name: OFFSET_STORAGE_TOPIC
+              value: debezium-pg-sync-offset
+            - name: STATUS_STORAGE_TOPIC
+              value: debezium-pg-sync-status
+            - name: KAFKA_HEAP_OPTS
+              value: -Xms2G -Xmx6G
+            - name: CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: HEARTBEAT_INTERVAL_MS
+              value: "15000"
+            - name: INTERNAL_KEY_CONVERTER
+              value: org.apache.kafka.connect.json.JsonConverter
+            - name: INTERNAL_VALUE_CONVERTER
+              value: org.apache.kafka.connect.json.JsonConverter
+            - name: KEY_CONVERTER
+              value: org.apache.kafka.connect.json.JsonConverter
+            - name: KEY_CONVERTER_SCHEMAS_ENABLE
+              value: "false"
+            - name: OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: PLUGIN_PATH
+              value: /usr/share/java
+            - name: SESSION_TIMEOUT_MS
+              value: "60000"
+            - name: STATUS_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: VALUE_CONVERTER
+              value: org.apache.kafka.connect.json.JsonConverter
+            - name: VALUE_CONVERTER_SCHEMAS_ENABLE
+              value: "false"
+            - name: PRODUCER_COMPRESSION_TYPE
+              value: zstd
+            - name: PRODUCER_MAX_REQUEST_SIZE
+              value: "5242880"
+            - name: KAFKA_PRODUCER_COMPRESSION_TYPE
+              value: zstd
+            - name: KAFKA_PRODUCER_MAX_REQUEST_SIZE
+              value: "5242880"
+            - name: TZ
+              value: Asia/Shanghai
+          image: debezium/connect
+          imagePullPolicy: IfNotPresent
+          name: kafka-connectpg
+          ports:
+            - containerPort: 8083
+              name: kafka-connectpg
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 3600m
+              memory: 8Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          securityContext:
+            privileged: false
+            procMount: Default
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: qcloudregistrykey
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 30
+

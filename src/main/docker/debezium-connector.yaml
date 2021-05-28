@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debezium-connector
+spec:
+  selector:
+    matchLabels:
+      app: dbz
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dbz
+        component: connector
+        name: connector
+    spec:
+      containers:
+        - name: connector
+          image: docker.io/debezium/connect
+          ports:
+            - containerPort: 8083
+              protocol: TCP
+          env:
+            - name: GROUP_ID
+              value: "1"
+            - name: CONFIG_STORAGE_TOPIC
+              value: my_connect_configs
+            - name: OFFSET_STORAGE_TOPIC
+              value: my_connect_offsets
+            - name: STATUS_STORAGE_TOPIC
+              value: my_connect_statusescon

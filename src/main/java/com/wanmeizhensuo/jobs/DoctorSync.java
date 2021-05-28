@@ -3,21 +3,33 @@ package com.wanmeizhensuo.jobs;
 import com.wanmeizhensuo.configurations.GroupConfiguration;
 import com.wanmeizhensuo.configurations.StreamsConfiguration;
 import com.wanmeizhensuo.configurations.TopicConfiguration;
+import com.wanmeizhensuo.streams.SyncParser;
 import com.wanmeizhensuo.streams.SyncVerticle;
 import com.wanmeizhensuo.streams.flow.Select;
+import com.wanmeizhensuo.streams.flow.Sink;
+import com.wanmeizhensuo.streams.flow.WorkFlow;
 import com.wanmeizhensuo.streams.parser.*;
 import io.quarkus.reactive.datasource.ReactiveDataSource;
 import io.quarkus.runtime.StartupEvent;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.Json;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+
+import static com.wanmeizhensuo.streams.flow.WorkFlow.*;
 
 @Slf4j
 @ApplicationScoped
@@ -36,44 +48,50 @@ public class DoctorSync {
 
     @Inject
     Vertx vertx;
+
     private String flowResult;
     private String fromResult;
-    private List<Object> selectResult;
+    private List<String> selectResult;
     private ImmutablePair<String, String> saveToResult;
 
-    public void testSample0() throws Throwable {
-        var jsonFile = Json.decodeValue("[\"flow\",\"doctor_sync\", [\"from\",\"topicConfiguration.doctorTopic\"]]");
-        var flowState = new StreamState(jsonFile);
-        var flowParser = new FlowParser();
-        var flowResult = flowParser.parse(flowState);
-        this.flowResult = flowResult;
+/*    private void jsonParser(String fileName) throws Throwable {
+        JSONParser jsonParser = new JSONParser();
+        File jsonFile = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
+        try (FileReader reader = new FileReader(jsonFile)) {
+            var file = jsonParser.parse(reader);
+            var f = Json.decodeValue(file.toString());
+            var state = new StreamState(f);
 
-        var fromFile = Json.decodeValue(("[\"from\",\"topicConfiguration.doctorTopic\"]"));
-        var fromState = new StreamState(fromFile);
-        var fromParser = new FromParser();
-        var fromResult = fromParser.parse(fromState);
-        this.fromResult = fromResult;
+            switch (fileName) {
+                case "flow-example.json"   : flowResult = new FlowParser().parse(state);
+                case "from-example.json"   : fromResult = new FromParser().parse(state);
+                case "select-example.json" : selectResult = new SelectParser().parse(state);
+                case "saveTo-example.json" : saveToResult = new SaveToParser().parse(state);
+            }
 
-        var selectFile = Json.decodeValue("[\"select\",\"id\",\"doctor_name\",\"tag_id\"]");
-        var selectState = new StreamState(selectFile);
-        var selectParser = new SelectParser();
-        var selectResult = selectParser.parse(selectState);
-        this.selectResult = selectResult;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }*/
 
-        var saveToFile = Json.decodeValue("[\"saveTo(PG)\", \"public.doctor_sync\"]");
-        var saveToState = new StreamState(saveToFile);
-        var saveToParser = new SaveToParser();
-        var saveToResult = saveToParser.parse(saveToState);
-        this.saveToResult = saveToResult;
+    public void ApiDoctorSync(@Observes StartupEvent startupEvent) throws Throwable {
+        JSONParser jsonParser = new JSONParser();
+        File jsonFile = new File(this.getClass().getClassLoader().getResource("flow-example.json").getFile());
+        try (FileReader reader = new FileReader(jsonFile)) {
+            var file = jsonParser.parse(reader);
+            var f = Json.decodeValue(file.toString());
+            var state = new StreamState(f);
+            var s = new StreamState(jsonFile);
+            Sink workFlow = new SyncParser(gmmerchant).parse(s);
+            workFlow.deploy(vertx);
+
+        }
+
     }
-    public void ApiDoctorSync(@Observes StartupEvent startupEvent) {
-        SyncVerticle.flow(flowResult)
-                .topic(fromResult)
-                .select(Select.select()
-                    .pKey().int32(selectResult.get(0).toString())
-                        .text(selectResult.get(1).toString())
-                        .int32(selectResult.get(2).toString()))
-                .saveTo().table(saveToResult.getRight());
-    }
-
 }
+
+

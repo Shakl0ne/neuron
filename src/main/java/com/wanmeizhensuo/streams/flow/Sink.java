@@ -177,7 +177,8 @@ public class Sink {
             } else {
                 log.info("job {} not included in limit set [{}], exist", name, limit);
             }
-        } else {
+        }
+        else {
             flag = true;
         }
 

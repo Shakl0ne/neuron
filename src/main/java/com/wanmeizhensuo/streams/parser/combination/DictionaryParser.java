@@ -1,13 +1,4 @@
-package com.wanmeizhensuo.streams.parser;
-
-import jaskell.parsec.common.Parsec;
-import jaskell.parsec.common.State;
-
-import java.util.LinkedHashMap;
-
-import static com.wanmeizhensuo.streams.parser.Parsers.*;
-import static jaskell.parsec.common.Combinator.*;
-import static com.wanmeizhensuo.streams.parser.common.Dictionary.dictionary;
+package com.wanmeizhensuo.streams.parser.combination;
 
 /*
 public class DictionaryParser implements Parsec<Token, LinkedHashMap<String,Object>> {

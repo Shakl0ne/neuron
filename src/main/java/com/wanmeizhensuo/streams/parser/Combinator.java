@@ -9,21 +9,35 @@ import jaskell.parsec.common.Parsec;
  * @version 1.0.0
  * @since 2021/05/18 17:56
  */
-public class Parsers {
-    public static OpenCurlyParser openCurly() {
+public class Combinator {
+    public static OpenCurlyParser openCurlyParser() {
         return new OpenCurlyParser();
     }
 
-    public static OpenSquareParser openSquare() {
+    public static OpenSquareParser openSquareParser() {
         return new OpenSquareParser();
     }
 
-    public static CloseCurlyParser closeCurly() {
+    public static CloseCurlyParser closeCurlyParser() {
         return new CloseCurlyParser();
     }
 
-    public static CloseSquareParser closeSquare() {
+    public static CloseSquareParser closeSquareParser() {
         return new CloseSquareParser();
+    }
+
+    public static  OpenCurly openCurly() {
+        return new OpenCurly();
+    }
+
+    public static OpenSquare openSquare() { return new OpenSquare(); }
+
+    public static CloseCurly closeCurly() {
+        return new CloseCurly();
+    }
+
+    public static CloseSquare closeSquare() {
+        return new CloseSquare();
     }
 
     public static Parsec<Token, Token> nameT() {
