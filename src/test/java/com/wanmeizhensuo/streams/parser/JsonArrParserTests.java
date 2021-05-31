@@ -20,7 +20,15 @@ public class JsonArrParserTests {
         var data = Json.decodeValue("[\"select\",7.7, [true,574] ,null]");
         var state = new StreamState(data);
         var parser = new JsonArrParser();
-        Object [] resArray ={"select",7.7,true,574,null};
+        Object [] resArray ={"select",7.7,"[",true,574,"]",null};
+        Assert.assertArrayEquals(resArray,parser.parse(state).toArray());
+    }
+    @Test
+    public void testSample2() throws Throwable {
+        var data = Json.decodeValue("[\"select\",7.7, [true,[1,2,3],574] ,null, [\"option\"]]");
+        var state = new StreamState(data);
+        var parser = new JsonArrParser();
+        Object [] resArray ={"select",7.7,"[",true,"[",1,2,3,"]",574,"]",null,"[","option","]"};
         Assert.assertArrayEquals(resArray,parser.parse(state).toArray());
     }
 }
