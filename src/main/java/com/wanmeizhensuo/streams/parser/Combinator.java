@@ -52,7 +52,18 @@ public class Combinator {
             }
         };
     }
-
+    public static Parsec<Token, Token> stringT() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.STRING){
+                return result;
+            } else {
+                var message = String.format("expect a string token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
 
     public static Parsec<Token, Token> integerT() {
         return s -> {
@@ -119,6 +130,8 @@ public class Combinator {
     public static Parsec<Token, Token> nameT(String token) {
         return token(new Token(token, TokenType.NAME));
     }
+
+    public static Parsec<Token, Token> stringT(String token) { return token(new Token(token, TokenType.STRING)); }
 
     public static Parsec<Token, Token> integerT(Integer token){
         return token(new Token(token, TokenType.INTEGER));

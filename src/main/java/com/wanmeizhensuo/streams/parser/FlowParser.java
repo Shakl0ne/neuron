@@ -6,13 +6,6 @@ import jaskell.parsec.common.State;
 import static com.wanmeizhensuo.streams.parser.Combinator.*;
 import static jaskell.parsec.common.Combinator.*;
 
-/**
- * TODO
- *
- * @author mars
- * @version 1.0.0
- * @since 2021/05/18 17:43
- */
 public class FlowParser implements Parsec<Token, String> {
     final Parsec<Token, Token> parser = openSquareParser().then(nameT("flow").then(nameT())
             .over(option(attempt(new FieldsParser())).then(closeSquareParser())));

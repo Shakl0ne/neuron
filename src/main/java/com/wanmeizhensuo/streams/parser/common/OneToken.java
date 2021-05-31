@@ -8,7 +8,7 @@ import static com.wanmeizhensuo.streams.parser.Combinator.*;
 import static jaskell.parsec.common.Combinator.*;
 
 public class OneToken implements Parsec<Token, Token> {
-    final Parsec<Token, Token> parser = choice(attempt(nameT()),attempt(integerT()),attempt(longT()),
+    final Parsec<Token, Token> parser = choice(attempt(nameT()),attempt(stringT()),attempt(integerT()),attempt(longT()),
             attempt(doubleT()),attempt(floatT()),attempt(booleanT()),attempt(nullT()));
 
     @Override

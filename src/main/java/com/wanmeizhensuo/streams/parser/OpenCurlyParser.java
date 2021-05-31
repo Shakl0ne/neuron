@@ -16,7 +16,7 @@ public class OpenCurlyParser implements Parsec<Token, Void> {
     @Override
     public Void parse(State<Token> s) throws Throwable {
         var token = s.next();
-        if (token.type == TokenType.OPEN_CURLY_BRACKET && StringUtils.equals("{", token.content.toString())) {
+        if (token.type == TokenType.OPEN_CURLY_BRACKET && StringUtils.equals("{", token.getContent().toString())) {
             return null;
         } else {
             var message = String.format("expect a open curly bracket { but get %s", token);
