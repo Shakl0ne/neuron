@@ -20,20 +20,22 @@ public class JsonArrParser implements Parsec<Token, List<Object>> {
     final Parsec<Token, List<Token>> next = choice(many(new OneToken()));
     @Override
     public List<Object> parse(State<Token> s) throws Throwable {
-        Integer tran = 0;
         List<Token> res = parser.parse(s);
-        while (end.exec(s).isErr()) {
+        while (true) {
             var o = option(attempt(openSquare())).parse(s);
             if (o.isPresent()) {
                 res.add(o.get());
             }
             res.addAll(next.parse(s));
-            if (end.exec(s).isErr()) {
+             if (end.exec(s).isErr()) {
                 var c = option(attempt(closeSquare())).parse(s);
                 if (c.isPresent()) {
                     res.add(c.get());
                 }
-            }
+             }
+             else {
+                 break;
+             }
 
         }
 
