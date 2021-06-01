@@ -5,11 +5,10 @@ import com.wanmeizhensuo.streams.parser.common.OneToken;
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.wanmeizhensuo.streams.parser.Combinator.*;
+import static com.wanmeizhensuo.streams.parser.Parsers.*;
 import static jaskell.parsec.common.Atom.eof;
 import static jaskell.parsec.common.Combinator.*;
 

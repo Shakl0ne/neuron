@@ -5,6 +5,7 @@ import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 import jaskell.parsec.common.TxtState;
 
+import static com.wanmeizhensuo.streams.parser.common.Collector.*;
 import static jaskell.parsec.common.Combinator.*;
 import static jaskell.parsec.common.Txt.*;
 
@@ -32,12 +33,8 @@ public class StringParser implements Parsec<Token, String> {
 
     @Override
     public String parse(State<Token> s) throws Throwable {
-        var token = s.next();
-        if (token.type != TokenType.STRING){
-            var message = String.format("expect a string token but get %s type %s",
-                    token.content, token.type);
-            throw s.trap(message);
-        }
+        var token = oneString().parse(s);
+
         var state = new TxtState(token.content.toString());
         return parser.parse(state);
     }

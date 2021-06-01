@@ -9,7 +9,7 @@ import jaskell.parsec.common.Parsec;
  * @version 1.0.0
  * @since 2021/05/18 17:56
  */
-public class Combinator {
+public class Parsers {
     public static OpenCurlyParser openCurlyParser() {
         return new OpenCurlyParser();
     }
@@ -127,9 +127,7 @@ public class Combinator {
     }
 
 
-    public static Parsec<Token, Token> nameT(String token) {
-        return token(new Token(token, TokenType.NAME));
-    }
+    public static Parsec<Token, Token> nameT(String token) { return token(new Token(token, TokenType.NAME)); }
 
     public static Parsec<Token, Token> stringT(String token) { return token(new Token(token, TokenType.STRING)); }
 

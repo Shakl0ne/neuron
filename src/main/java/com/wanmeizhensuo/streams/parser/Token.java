@@ -21,8 +21,8 @@ import static com.wanmeizhensuo.streams.parser.TokenType.*;
 @AllArgsConstructor
 @Builder
 public class Token {
-    Object content;
-    TokenType type;
+    public Object content;
+    public TokenType type;
 
     @Override
     public String toString() {

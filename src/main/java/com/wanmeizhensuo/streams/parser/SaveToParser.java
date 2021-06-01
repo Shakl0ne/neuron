@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.wanmeizhensuo.streams.parser.Combinator.*;
+import static com.wanmeizhensuo.streams.parser.Parsers.*;
 import static jaskell.parsec.common.Combinator.*;
 import static com.wanmeizhensuo.streams.parser.common.Pair1.pair1;
 
