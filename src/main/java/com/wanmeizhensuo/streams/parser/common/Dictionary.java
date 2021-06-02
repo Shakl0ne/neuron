@@ -1,4 +1,4 @@
-package com.wanmeizhensuo.streams.parser.combination;
+package com.wanmeizhensuo.streams.parser.common;
 
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
@@ -20,5 +20,5 @@ public class Dictionary<E, T> implements Parsec<E, LinkedHashMap<T,T>> {
         this.p2 = p2;
     }
 
-    public static <E,T> Dictionary<E,T> dictionary(Parsec<E,T> p1, Parsec<E,T> p2) {return new Dictionary<>(p1,p2); }
+
 }

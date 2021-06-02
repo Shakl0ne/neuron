@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import static com.wanmeizhensuo.streams.parser.Parsers.*;
 import static jaskell.parsec.common.Combinator.*;
-import static com.wanmeizhensuo.streams.parser.common.Pair1.pair1;
+import static com.wanmeizhensuo.streams.parser.common.Collector.*;
 
 public class SaveToParser implements Parsec<Token, ImmutablePair<String, String>> {
     final Parsec<Token, ImmutablePair<Token, Token>> parser = between(openSquareParser(), closeSquareParser(), pair1(nameT(), nameT()));

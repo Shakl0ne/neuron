@@ -8,7 +8,7 @@ import static jaskell.parsec.common.Combinator.*;
 
 public class FlowParser implements Parsec<Token, String> {
     final Parsec<Token, Token> parser = openSquareParser().then(nameT("flow").
-            then(nameT()));
+            then(nameT())).over(openSquareParser());
     @Override
     public String parse(State<Token> s) throws Throwable {
         var result = parser.parse(s);

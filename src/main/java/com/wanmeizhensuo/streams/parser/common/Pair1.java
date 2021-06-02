@@ -20,5 +20,5 @@ public class Pair1<E, T> implements Parsec<E, ImmutablePair<T,T>> {
     }
 
 
-    public static <E, T> Pair1<E, T> pair1(Parsec<E, T> p1, Parsec<E, T> p2) {return new Pair1<>(p1, p2); }
+
 }

@@ -3,10 +3,21 @@ package com.wanmeizhensuo.streams.parser;
 
 import io.vertx.core.json.Json;
 
+import jaskell.parsec.common.Parsec;
+import jaskell.parsec.common.State;
+import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class StringParserTests {
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import static jaskell.parsec.common.Combinator.*;
+import static com.wanmeizhensuo.streams.parser.Parsers.*;
+
+public class StringParserTests implements Parsec<Token, List<String>>{
+
     @Test
     public void testSample0() throws Throwable {
         var data = Json.decodeValue("\"'sub'\" ");
@@ -33,11 +44,22 @@ public class StringParserTests {
     }
     @Test
     public void testSample3() throws Throwable {
-        var data = Json.decodeValue("75");
+        var obj = new JSONParser().parse(new FileReader("src/test/resources/basic/simple-0.json"));
+        var data = Json.decodeValue(obj.toString());
         var state = new StreamState(data);
-        var parser = new StringParser();
-        parser.parse(state);
+
+        List<String> resList = new ArrayList<>();
+        resList.add("sub");
+        resList.add("content");
+
+        Assert.assertEquals(resList, parse(state));
     }
 
 
+    @Override
+    public List<String> parse(State<Token> state) throws Throwable {
+        var res = many1(new StringParser()).parse(state);
+        while(res.remove(null));
+        return res;
+    }
 }

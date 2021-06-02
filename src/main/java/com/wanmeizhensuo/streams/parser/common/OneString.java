@@ -16,7 +16,8 @@ Return a token of STRING type
 
 public class OneString implements Parsec<Token, Token> {
     final Parsec<Token, Token> parser = choice(attempt(nameT()),attempt(stringT()),attempt(integerT()),
-            attempt(longT()), attempt(doubleT()),attempt(floatT()),attempt(booleanT()),attempt(nullT()));
+            attempt(longT()), attempt(doubleT()),attempt(floatT()),attempt(booleanT()),attempt(nullT()),
+            attempt(openCurly()),attempt(openSquare()),attempt(closeSquare()),attempt(closeCurly()));
 
     @Override
     public Token parse(State<Token> s) throws Throwable {
