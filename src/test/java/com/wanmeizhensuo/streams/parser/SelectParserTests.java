@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class SelectParserTests {
@@ -51,9 +52,9 @@ public class SelectParserTests {
         var data = Json.decodeValue(obj.toString());
         var state = new StreamState(data);
         var parser = new SelectParser();
-        var res = parser.parse(state);
-        String [] resArray = {"[, field1, field2, field3, [, named, field4, caption-0, ], [, named, [, replace, field5, 'sub', 'content', ], caption-1, ], ]"};
-        System.out.println(res);
+        String [] resArray = {"[", "field1", "field2", "field3", "[", "named", "field4", "caption-0", "]",
+                "[", "named", "[", "replace", "field5", "'sub'", "'content'", "]", "caption-1", "]", "]"};
+        Assert.assertEquals(Arrays.asList(resArray),parser.parse(state));
     }
     @Test
     public void testSample4() throws Throwable {

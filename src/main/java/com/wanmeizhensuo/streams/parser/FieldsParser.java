@@ -4,6 +4,7 @@ import jaskell.parsec.ParsecException;
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
 
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
