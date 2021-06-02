@@ -25,8 +25,7 @@ public class OneName implements Parsec<Token, Token> {
             return t;
         }
         else {
-            throw s.trap(String.format("expect a name token at %s but get %s type %s",
-                    s.status().toString(), t.content.toString(), t.type.toString()));
+            return null;
         }
     }
 }

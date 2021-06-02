@@ -31,5 +31,13 @@ public class StringParserTests {
         var parser = new StringParser();
         Assert.assertEquals(result,parser.parse(state));
     }
+    @Test
+    public void testSample3() throws Throwable {
+        var data = Json.decodeValue("75");
+        var state = new StreamState(data);
+        var parser = new StringParser();
+        parser.parse(state);
+    }
+
 
 }

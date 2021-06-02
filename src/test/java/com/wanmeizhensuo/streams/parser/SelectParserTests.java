@@ -63,8 +63,11 @@ public class SelectParserTests {
         var state = new StreamState(data);
         var parser = new SelectParser();
 
-        var res = parser.parse(state);
-        System.out.println(res);
+        String [] resArray = {"{", "field1", "[", "source0", "field1", "]", "field0", "field0", "field3",
+                "[", "object", "{", "field3.1", "field4", "field3.0", "[", "from", "source0", "field2.or.path", "]",
+                "}", "]", "field2", "[", "from", "source1", "field2.or.path", "]", "field4", "[", "list", "field7",
+                "[", "from", "source", "path.or.field", "]", "]", "}"};
+        Assert.assertEquals(Arrays.asList(resArray),parser.parse(state));
     }
 
 }

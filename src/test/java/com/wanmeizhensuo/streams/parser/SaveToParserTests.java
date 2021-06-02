@@ -14,7 +14,6 @@ public class SaveToParserTests {
         try {
             var res = parser.parse(state);
         } catch (Throwable e) {
-            System.out.println("passed");
         }
     }
     @Test
@@ -25,7 +24,6 @@ public class SaveToParserTests {
         try {
             var res = parser.parse(state);
         } catch (Throwable e) {
-            System.out.println("passed");
         }
     }
     @Test
@@ -60,7 +58,6 @@ public class SaveToParserTests {
         try {
             var res = parser.parse(state);
         } catch (Throwable e) {
-            System.out.println("passed");
         }
     }
     @Test
@@ -71,7 +68,16 @@ public class SaveToParserTests {
         try {
             var res = parser.parse(state);
         } catch (Throwable e) {
-            System.out.println("passed");
+        }
+    }
+    @Test
+    public void testSample7() throws Throwable {
+        var data = Json.decodeValue("[\"saveTo(PG)\",44]");
+        var state = new StreamState(data);
+        var parser = new SaveToParser();
+        try {
+            var res = parser.parse(state);
+        } catch (Throwable e) {
         }
     }
 }

@@ -34,7 +34,9 @@ public class StringParser implements Parsec<Token, String> {
     @Override
     public String parse(State<Token> s) throws Throwable {
         var token = oneString().parse(s);
-
+        if (token == null) {
+            return null;
+        }
         var state = new TxtState(token.content.toString());
         return parser.parse(state);
     }
