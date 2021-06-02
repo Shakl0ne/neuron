@@ -27,7 +27,7 @@ public class FieldsParser implements Parsec<Token, List<String>> {
     public List<String> parse(State<Token> s) throws Throwable {
         Integer osCount = 0, ocCount = 0, csCount = 0, ccCount = 0;
         List<Token> res = new ArrayList<>();
-        while ((csCount <= osCount) && (ocCount <= ccCount)) {                      //Only extract the token inside
+        while ((csCount <= osCount) && (ccCount <= ocCount)) {                      //Only extract the token inside
             var o = open.parse(s);                                  //either start with an open square bracket or open curly bracket
             if (o.isPresent()) {
                 if (o.get().type == TokenType.OPEN_SQUARE_BRACKET) {
@@ -60,7 +60,6 @@ public class FieldsParser implements Parsec<Token, List<String>> {
         if ((csCount - osCount == 1) || (ccCount - ocCount == 1)) {
             res.remove(res.size() - 1);
         }
-
 
         return res.stream().map(token -> token.content.toString()).collect(Collectors.toList());
 
