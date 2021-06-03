@@ -202,7 +202,6 @@ public class Sink {
         return flow.select;
     }
 
-
     public PgPool getPool() {
         return pool;
     }

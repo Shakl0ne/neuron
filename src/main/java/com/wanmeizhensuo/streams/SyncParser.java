@@ -1,21 +1,16 @@
 package com.wanmeizhensuo.streams;
 
 import com.wanmeizhensuo.streams.flow.Sink;
-import com.wanmeizhensuo.streams.flow.WorkFlow;
 import com.wanmeizhensuo.streams.flow.Select;
 import com.wanmeizhensuo.streams.parser.*;
+import com.wanmeizhensuo.streams.parser.common.SaveToAny;
 import io.vertx.mutiny.sqlclient.Pool;
-import jaskell.parsec.ParsecException;
-import jaskell.parsec.common.Attempt;
 import jaskell.parsec.common.Parsec;
 import jaskell.parsec.common.State;
-import jaskell.util.Try;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import java.io.EOFException;
+import java.util.LinkedHashMap;
 import java.util.List;
-
-import static jaskell.parsec.common.Combinator.between;
 
 /**
  * TODO
@@ -35,7 +30,8 @@ public class SyncParser implements Parsec<Token, Sink> {
     Parsec<Token, String> flowParser = new FlowParser();
     Parsec<Token, String> fromParser = new FromParser();
     Parsec<Token, List<String>> selectParser = new SelectParser();
-    Parsec<Token, ImmutablePair<String, String>> saveToParser = new SaveToParser();
+    Parsec<Token, String> save2PGParser = new Save2PGParser();
+    Parsec<Token, LinkedHashMap<String, String>> save2EsParser = new Save2EsParser();
 
     @Override
     public Sink parse(State<Token> s) throws Throwable {
@@ -45,13 +41,13 @@ public class SyncParser implements Parsec<Token, Sink> {
                 .consumers(1)
                 .topic(fromParser.parse(s));
         var selectResult = selectParser.parse(s);
-        var saveToResult = saveToParser.parse(s);
+        var saveToResult = save2EsParser.parse(s);
         var select = Select.select();
         for (var field : selectResult) {
             verticle.select(select.identity(field));
         }
 
-        return verticle.select(Select.select()).saveTo().schema("").table(saveToResult.getRight());
+        return verticle.select(Select.select()).saveTo().schema("").table(saveToResult.get("name"));
     }
 
 
