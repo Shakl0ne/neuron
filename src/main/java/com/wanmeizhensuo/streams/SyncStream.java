@@ -168,7 +168,4 @@ public class SyncStream {
         void handle(JsonObject message, Exception ex);
     }
 
-    public static WorkFlow flow(String name) {
-        return WorkFlow.flow(name);
-    }
 }

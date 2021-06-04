@@ -26,12 +26,6 @@ public class Select {
     LinkedHashMap<String, ColumnDefine> defines = new LinkedHashMap<>();
     LinkedHashSet<String> pKey = new LinkedHashSet<>();
 
-    public Select identity(String column) {
-        defines.put(column, new ColumnDefine(column, column,
-                obj -> obj.getValue(column), ColumnDefine.Type.ANY));
-        return this;
-    }
-
     public Select int32(String name, String column) {
         defines.put(name, new ColumnDefine(name, "int32", column,
                 obj -> obj.getInteger(name), ColumnDefine.Type.INTEGER));

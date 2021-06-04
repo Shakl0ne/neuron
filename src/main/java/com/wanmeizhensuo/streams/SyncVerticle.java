@@ -302,9 +302,6 @@ public class SyncVerticle extends AbstractVerticle {
         }
     }
 
-    public static WorkFlow flow(String name) {
-        return WorkFlow.flow(name);
-    }
 
     private void info(boolean enable, String format, Object ...params){
         if(enable){

@@ -34,7 +34,7 @@ public class CitySync extends Job {
     Vertx vertx;
 
     public void CitySync(@Observes StartupEvent startupEvent) {
-        SyncVerticle.flow("city_sync")
+/*        SyncVerticle.flow("city_sync")
                 .bootstrapServers(streamsConfiguration.bootstrapServers)
                 .topic(topicConfiguration.cityTopic)
                 .groupId(groupConfiguration.cityGroup)
@@ -49,6 +49,6 @@ public class CitySync extends Job {
                         .int32("level")
                 )
                 .saveTo().schema("public").table("city_sync").pool(gmmerchant)
-                .deploy(vertx);
+                .deploy(vertx);*/
     }
 }

@@ -3,6 +3,7 @@ package com.wanmeizhensuo.jobs;
 import com.wanmeizhensuo.configurations.GroupConfiguration;
 import com.wanmeizhensuo.configurations.StreamsConfiguration;
 import com.wanmeizhensuo.configurations.TopicConfiguration;
+import com.wanmeizhensuo.streams.Job;
 import com.wanmeizhensuo.streams.SyncParser;
 import com.wanmeizhensuo.streams.SyncVerticle;
 import com.wanmeizhensuo.streams.flow.Select;
@@ -27,13 +28,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.wanmeizhensuo.streams.flow.WorkFlow.*;
 
 @Slf4j
 @ApplicationScoped
-public class DoctorSync {
+public class DoctorSync extends Job {
 
     @Inject
     TopicConfiguration topicConfiguration;
@@ -49,49 +51,14 @@ public class DoctorSync {
     @Inject
     Vertx vertx;
 
-    private String flowResult;
-    private String fromResult;
-    private List<String> selectResult;
-    private ImmutablePair<String, String> saveToResult;
-
-/*    private void jsonParser(String fileName) throws Throwable {
-        JSONParser jsonParser = new JSONParser();
-        File jsonFile = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
-        try (FileReader reader = new FileReader(jsonFile)) {
-            var file = jsonParser.parse(reader);
-            var f = Json.decodeValue(file.toString());
-            var state = new StreamState(f);
-
-            switch (fileName) {
-                case "flow-example.json"   : flowResult = new FlowParser().parse(state);
-                case "from-example.json"   : fromResult = new FromParser().parse(state);
-                case "select-example.json" : selectResult = new SelectParser().parse(state);
-                case "saveTo-example.json" : saveToResult = new SaveToParser().parse(state);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     public void ApiDoctorSync(@Observes StartupEvent startupEvent) throws Throwable {
-        JSONParser jsonParser = new JSONParser();
-        File jsonFile = new File(this.getClass().getClassLoader().getResource("flow-example.json").getFile());
-        try (FileReader reader = new FileReader(jsonFile)) {
-            var file = jsonParser.parse(reader);
-            var f = Json.decodeValue(file.toString());
-            var state = new StreamState(f);
-            var s = new StreamState(jsonFile);
-            Sink workFlow = new SyncParser(gmmerchant).parse(s);
-            workFlow.deploy(vertx);
-
-        }
+        var obj = new JSONParser().parse(new FileReader("/Users/Shaco/neuron/src/test/resources/basic/sample-elastic-0.json"));
+        var data = Json.decodeValue(obj.toString());
+        var s = new StreamState(data);
 
     }
+
+
 }
 
 

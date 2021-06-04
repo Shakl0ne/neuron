@@ -35,19 +35,9 @@ public class SyncParser implements Parsec<Token, Sink> {
 
     @Override
     public Sink parse(State<Token> s) throws Throwable {
-        var verticle = SyncVerticle.flow(flowParser.parse(s))
-                .bootstrapServers("127.0.0.1:9093")
-                .groupId("doctor_sync_test.api_doctor-001")
-                .consumers(1)
-                .topic(fromParser.parse(s));
-        var selectResult = selectParser.parse(s);
-        var saveToResult = save2EsParser.parse(s);
-        var select = Select.select();
-        for (var field : selectResult) {
-            verticle.select(select.identity(field));
-        }
 
-        return verticle.select(Select.select()).saveTo().schema("").table(saveToResult.get("name"));
+
+        return null;
     }
 
 
