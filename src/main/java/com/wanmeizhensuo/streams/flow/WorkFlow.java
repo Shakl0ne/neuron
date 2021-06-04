@@ -7,7 +7,6 @@ import com.wanmeizhensuo.streams.parser.Token;
 import jaskell.parsec.common.State;
 import org.apache.kafka.common.serialization.Serdes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,13 +22,10 @@ public class WorkFlow {
     int consumerCount = 1;
     String tpc = null;
 
-
-
-
-    WorkFlow(State<Token> s) throws Throwable {
+    public WorkFlow flow(State<Token> s) throws Throwable {
         var flowParser = new FlowParser();
-
         this.name = flowParser.parse(s);
+        return this;
     }
 
     public WorkFlow() {
@@ -89,6 +85,10 @@ public class WorkFlow {
         return this;
     }
 
+    public void fields (List<Token> fields) {
+
+    }
+
     public String getName() {
         return name;
     }
@@ -102,7 +102,7 @@ public class WorkFlow {
     }
 
 
-    public static WorkFlow flow() {
+    public static WorkFlow workFlow() {
         return new WorkFlow();
     }
 }

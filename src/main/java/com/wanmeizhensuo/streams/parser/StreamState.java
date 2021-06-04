@@ -108,4 +108,7 @@ public class StreamState implements State<Token> {
         return this.buffer;
     }
 
+    public static StreamState streamState(Object data) throws Throwable {
+        return new StreamState(data);
+    }
 }
