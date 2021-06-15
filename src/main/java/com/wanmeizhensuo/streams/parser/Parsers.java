@@ -26,7 +26,7 @@ public class Parsers {
         return new CloseSquareParser();
     }
 
-    public static  OpenCurly openCurly() {
+    public static OpenCurly openCurly() {
         return new OpenCurly();
     }
 

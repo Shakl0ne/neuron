@@ -63,7 +63,7 @@ public class WorkFlow {
         return this;
     }
 
-    public WorkFlow select(State<Token> s, Select select) throws Throwable {
+    public WorkFlow select(State<Token> s) throws Throwable {
         if (bootstrapServers == null) {
             throw new IllegalStateException("need bootstrap servers");
         }
@@ -72,16 +72,20 @@ public class WorkFlow {
         }
         var selectParser = new SelectParser();
         var selectResult = selectParser.parse(s);
-        var result = Select.select();
+        var sel = Select.select();
         selectResult.forEach(
-                str -> {
-                    var res = select.defines.get(str);
-                    if (!res.columnName().isEmpty()) {
-                        result.defines.put(str, res);
+                (type,field) -> {
+                    switch (type) {
+                        case "Integer" : sel.int32(field);
+                        case "String"  : sel.text(field);
+                        case "Float"   : sel.flt(field);
+                        case "Double"  : sel.dbl(field);
+                        case "Text"    : sel.text(field);
                     }
                 }
         );
-        this.select = result;
+
+        this.select = sel;
         return this;
     }
 
