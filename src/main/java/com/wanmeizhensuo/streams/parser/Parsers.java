@@ -52,6 +52,18 @@ public class Parsers {
             }
         };
     }
+    public static Parsec<Token, String> name2String() {
+        return s -> {
+            var result = s.next();
+            if(result.type == TokenType.NAME){
+                return result.content.toString();
+            } else {
+                var message = String.format("expect a name token but type of %s is %s",
+                        result, result.type);
+                throw s.trap(message);
+            }
+        };
+    }
     public static Parsec<Token, Token> stringT() {
         return s -> {
             var result = s.next();

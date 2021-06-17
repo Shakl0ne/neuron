@@ -1,12 +1,15 @@
 package com.wanmeizhensuo.jobs;
 
 import com.wanmeizhensuo.configurations.GroupConfiguration;
+import com.wanmeizhensuo.configurations.NeuronConfiguration;
 import com.wanmeizhensuo.configurations.StreamsConfiguration;
 import com.wanmeizhensuo.configurations.TopicConfiguration;
 import com.wanmeizhensuo.http.DoctorService;
 import com.wanmeizhensuo.streams.Job;
 import com.wanmeizhensuo.streams.flow.Select;
 import com.wanmeizhensuo.streams.flow.WorkFlow;
+import io.agroal.api.AgroalDataSource;
+import io.quarkus.agroal.DataSource;
 import io.quarkus.reactive.datasource.ReactiveDataSource;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Uni;
@@ -46,9 +49,7 @@ public class DoctorSync extends Job {
     @ReactiveDataSource("gmmerchant")
     PgPool gmmerchant;
 
-    @Inject
-    @RestClient
-    DoctorService doctorService;
+
 
     @Inject
     Vertx vertx;
@@ -57,18 +58,16 @@ public class DoctorSync extends Job {
         var obj = new JSONParser().parse(new FileReader("/Users/Shaco/neuron/src/test/resources/basic/test-sample.json"));
         var data = Json.decodeValue(obj.toString());
         workFlow().flow(streamState(data))
-                .bootstrapServers("localhost:9092")
+                .bootstrapServers(streamsConfiguration.bootstrapServers)
                 .topic(streamState(data))
                 .groupId(groupConfiguration.doctorGroup)
                 .consumers(1)
                 .select(streamState(data))
-                .saveTo().schema("").table("").pool(gmmerchant).deploy(vertx);
+                .saveTo().schema("public").table("doctor_sync").pool(gmmerchant).deploy(vertx);
 
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<WorkFlow> postMutiny(WorkFlow flow) { return doctorService.postSync(flow);}
+
 
 
 }

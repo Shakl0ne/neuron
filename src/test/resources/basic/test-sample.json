@@ -1,14 +1,13 @@
-["flow", "flow name",
+["flow", "test-doctor",
   [
     "from",
-    "dbserver1.inventory.customers"
+    "doctor_test_connect.wanmeizhensuo.doctor"
   ],
   [
     "select",
-    {"Integer": "id"},
-    {"String":"last_name"},
-    {"String":"first_name"},
-    {"String":"email"}
+    [ "id", "Integer32", "Primary Key" ],
+    [ "doctor_name", "String" ],
+    [ "tag_id", "Integer32" ]
   ],
   ["saveTo(PG)", "source name"]
 ]

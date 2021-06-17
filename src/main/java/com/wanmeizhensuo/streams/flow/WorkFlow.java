@@ -1,12 +1,19 @@
 package com.wanmeizhensuo.streams.flow;
 
+import com.wanmeizhensuo.http.DoctorService;
 import com.wanmeizhensuo.streams.parser.FlowParser;
 import com.wanmeizhensuo.streams.parser.FromParser;
 import com.wanmeizhensuo.streams.parser.SelectParser;
 import com.wanmeizhensuo.streams.parser.Token;
+import io.smallrye.mutiny.Uni;
 import jaskell.parsec.common.State;
 import org.apache.kafka.common.serialization.Serdes;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import javax.inject.Inject;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +28,10 @@ public class WorkFlow {
 
     int consumerCount = 1;
     String tpc = null;
+
+    @Inject
+    @RestClient
+    DoctorService doctorService;
 
     public WorkFlow flow(State<Token> s) throws Throwable {
         var flowParser = new FlowParser();
@@ -74,13 +85,24 @@ public class WorkFlow {
         var selectResult = selectParser.parse(s);
         var sel = Select.select();
         selectResult.forEach(
-                (type,field) -> {
-                    switch (type) {
-                        case "Integer" : sel.int32(field);
-                        case "String"  : sel.text(field);
-                        case "Float"   : sel.flt(field);
-                        case "Double"  : sel.dbl(field);
-                        case "Text"    : sel.text(field);
+                list -> {
+                    if (list.size() > 2 && list.get(2).equals("Primary Key")) {
+                        switch (list.get(1)) {
+                            case "Integer32" : sel.pKey().int32(list.get(0)); break;
+                            case "Integer64" : sel.pKey().int64(list.get(0)); break;
+                            case "String"    : sel.pKey().text(list.get(0)); break;
+                            case "Text"      : sel.pKey().text(list.get(0)); break;
+                        }
+                    }
+                    else {
+                        switch (list.get(1)) {
+                            case "Integer32" : sel.int32(list.get(0)); break;
+                            case "Integer64" : sel.int64(list.get(0)); break;
+                            case "String"    : sel.text(list.get(0)); break;
+                            case "Float"     : sel.flt(list.get(0)); break;
+                            case "Double"    : sel.dbl(list.get(0)); break;
+                            case "Text"      : sel.text(list.get(0)); break;
+                        }
                     }
                 }
         );
@@ -89,9 +111,17 @@ public class WorkFlow {
         return this;
     }
 
-    public void fields (List<Token> fields) {
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public WorkFlow post(WorkFlow flow) {
+        flow.select.defines.values().forEach(de -> {
+            doctorService.postSync(de);
+        });
+        return this;
 
     }
+
 
     public String getName() {
         return name;

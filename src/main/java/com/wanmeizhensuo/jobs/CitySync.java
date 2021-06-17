@@ -26,9 +26,6 @@ public class CitySync extends Job {
     @Inject
     GroupConfiguration groupConfiguration;
 
-    @Inject
-    @ReactiveDataSource("gmmerchant")
-    PgPool gmmerchant;
 
     @Inject
     Vertx vertx;

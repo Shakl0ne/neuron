@@ -68,7 +68,7 @@ public class Sink {
 
     public Topology topology() {
         if (table == null) {
-            throw new IllegalArgumentException("Table name must been define");
+            throw new IllegalArgumentException("Table name must be defined");
         }
         var builder = new StreamsBuilder();
         builder.stream(flow.tpc)

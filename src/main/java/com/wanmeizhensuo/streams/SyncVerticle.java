@@ -91,9 +91,9 @@ public class SyncVerticle extends AbstractVerticle {
         //pgPool = PgPool.newInstance(delegate);
         pgPool = workflow.getPool();
         ticket = LocalDateTime.now();
-        var sub = consumer.subscribe(workflow.getFlow().getTopic());
 
         var topic = workflow.getFlow().getTopic();
+        var sub = consumer.subscribe(topic);
         vertx.eventBus().localConsumer(topic).handler(message -> {
             this.commitIfy();
         });
@@ -103,7 +103,6 @@ public class SyncVerticle extends AbstractVerticle {
                 vertx.eventBus().sendAndForget(topic, String.format("sync %s once", topic));
             }
         });
-
         consumer.handler(this::process);
         log.info("{} start with {}", workflow.getFlow().getName(), sub);
         return sub;
@@ -179,6 +178,7 @@ public class SyncVerticle extends AbstractVerticle {
             log.info("get a null message id {}, ignore it", record.value());
             return;
         }
+        System.out.println(record.key().toString()+" = "+record.value().toString());
         JsonObject objKey = new JsonObject(record.key().toString());
         JsonObject objValue = new JsonObject(record.value().toString());
         JsonObject payload = objValue.getJsonObject("payload");
