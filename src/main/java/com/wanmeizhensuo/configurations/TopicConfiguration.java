@@ -9,6 +9,4 @@ public class TopicConfiguration {
     @ConfigProperty(name = "doctor-topic")
     public String doctorTopic;
 
-    @ConfigProperty(name = "city-topic")
-    public String cityTopic;
 }

@@ -9,6 +9,5 @@ public class GroupConfiguration {
     @ConfigProperty(name = "doctor-group")
     public String doctorGroup;
 
-    @ConfigProperty(name = "city-group")
-    public String cityGroup;
+
 }

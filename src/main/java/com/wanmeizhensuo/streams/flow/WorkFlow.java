@@ -1,20 +1,15 @@
 package com.wanmeizhensuo.streams.flow;
 
-import com.wanmeizhensuo.http.DoctorService;
 import com.wanmeizhensuo.streams.parser.FlowParser;
 import com.wanmeizhensuo.streams.parser.FromParser;
 import com.wanmeizhensuo.streams.parser.SelectParser;
 import com.wanmeizhensuo.streams.parser.Token;
-import io.smallrye.mutiny.Uni;
 import jaskell.parsec.common.State;
 import org.apache.kafka.common.serialization.Serdes;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.UUID;
 
 public class WorkFlow {
@@ -29,9 +24,6 @@ public class WorkFlow {
     int consumerCount = 1;
     String tpc = null;
 
-    @Inject
-    @RestClient
-    DoctorService doctorService;
 
     public WorkFlow flow(State<Token> s) throws Throwable {
         var flowParser = new FlowParser();
@@ -109,17 +101,6 @@ public class WorkFlow {
 
         this.select = sel;
         return this;
-    }
-
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public WorkFlow post(WorkFlow flow) {
-        flow.select.defines.values().forEach(de -> {
-            doctorService.postSync(de);
-        });
-        return this;
-
     }
 
 

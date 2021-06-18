@@ -1,35 +1,21 @@
 package com.wanmeizhensuo.jobs;
 
 import com.wanmeizhensuo.configurations.GroupConfiguration;
-import com.wanmeizhensuo.configurations.NeuronConfiguration;
 import com.wanmeizhensuo.configurations.StreamsConfiguration;
 import com.wanmeizhensuo.configurations.TopicConfiguration;
-import com.wanmeizhensuo.http.DoctorService;
 import com.wanmeizhensuo.streams.Job;
-import com.wanmeizhensuo.streams.flow.Select;
-import com.wanmeizhensuo.streams.flow.WorkFlow;
-import io.agroal.api.AgroalDataSource;
-import io.quarkus.agroal.DataSource;
 import io.quarkus.reactive.datasource.ReactiveDataSource;
 import io.quarkus.runtime.StartupEvent;
-import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.Json;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.simple.parser.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.io.FileReader;
-import java.util.List;
 
 import static com.wanmeizhensuo.streams.flow.WorkFlow.workFlow;
 import static com.wanmeizhensuo.streams.parser.StreamState.streamState;

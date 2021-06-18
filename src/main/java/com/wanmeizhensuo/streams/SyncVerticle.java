@@ -1,5 +1,6 @@
 package com.wanmeizhensuo.streams;
 
+import com.wanmeizhensuo.http.DoctorResource;
 import com.wanmeizhensuo.streams.flow.Select;
 import com.wanmeizhensuo.streams.flow.Sink;
 import com.wanmeizhensuo.streams.flow.WorkFlow;
@@ -178,7 +179,11 @@ public class SyncVerticle extends AbstractVerticle {
             log.info("get a null message id {}, ignore it", record.value());
             return;
         }
-        System.out.println(record.key().toString()+" = "+record.value().toString());
+
+        var syncRecord = record.key().toString()+" = "+record.value().toString();
+        var doctorResource = new DoctorResource();
+        doctorResource.post(syncRecord);
+        System.out.println(syncRecord);
         JsonObject objKey = new JsonObject(record.key().toString());
         JsonObject objValue = new JsonObject(record.value().toString());
         JsonObject payload = objValue.getJsonObject("payload");
@@ -215,6 +220,7 @@ public class SyncVerticle extends AbstractVerticle {
         }
         commitIfy();
     }
+
 
     public Uni<Void> save() {
         prepareBuffer();
